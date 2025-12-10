@@ -28,7 +28,52 @@ import FormalConjectures.ForMathlib.Data.Nat.Full
 
 
 namespace Erdos1094
+open Nat
+
+/--
+Helper Property: $A$ represents the set of pairs $(n,k)$ violating the conjecture
+i.e. $n \geq 2k$ and
+$k \geq 1$ and not $\minFac (\binom{n}{k}) ≤ \max (n / k, k)$.
+-/
+def A : Set (ℕ × ℕ) := {p : ℕ × ℕ | let n := p.1; let k := p.2;
+    n ≥ 2 * k ∧ k ≥ 1 ∧ ¬ (minFac (choose n k) ≤ max (n / k) k) }
+
+/--
+For all $n \geq 2 k$ the least prime factor of $\binom{n}{k}$ is $\leq \max (n / k, k)$, with only finitely many exceptions.
+-/
+@[category research open, AMS 11]
+theorem erdos_1094 : A.Finite := sorry
+
+/--
+More precisely, in [ELS88] they conjecture that if $n \geq 2 k$
+then the least prime factor of $\binom{n}{k}$ is $\leq \max (n / k, k)$
+with the following 14 exceptions:
+-/
+@[category research open, AMS 11]
+theorem erdos_1094.variants.two : A = {(7, 3), (13, 4), (23, 5), (14, 4), (44, 8), (46, 10),
+    (47, 10), (47, 11), (62, 6), (74, 10), (94, 10), (95, 10), (241, 16), (284, 28)} := by
+  sorry
+
+/--
+Helper Property: $B$ represents the set of pairs $(n,k)$ violating the stronger conjecture
+i.e. $n \geq 2k$ and
+$k \geq 1$ and not $\minFac (\binom{n}{k}) \leq \max (n / k, \sqrt{k})$.
+-/
+def B : Set (ℕ × ℕ) := {p : ℕ × ℕ | let n := p.1; let k := p.2;
+    n ≥ 2 * k ∧ k ≥ 1 ∧ ¬ (minFac (choose n k) ≤ max (n / k) (sqrt k)) }
 
 @[category research open, AMS 11]
-theorem erdos_1094 : True := sorry
+theorem erdos_1094.variants.three : B.Finite := sorry
+
+/--
+Helper Property: $C$ represents the set of pairs $(n,k)$ violating the logarithmic bound conjecture
+i.e. $n \geq 2k$ and
+$k \geq 1$ and not $\minFac (\binom{n}{k}) \leq \max (n / k, c \log k)$.
+-/
+def C (c : ℝ) : Set (ℕ × ℕ) := {p : ℕ × ℕ | let n := p.1; let k := p.2;
+    n ≥ 2 * k ∧ k ≥ 1 ∧ ¬ ((minFac (choose n k) : ℝ) ≤ max (n / k : ℝ) (c * Real.log k)) }
+
+@[category research open, AMS 11]
+theorem erdos_1094.variants.four : ∃ c, (C c).Finite := sorry
+
 end Erdos1094
